@@ -10,7 +10,7 @@ import {
 
 interface ModalProps {
   title: string;
-  desription: string;
+  description: string;
   isOpen: boolean;
   onClose: () => void;
   children?: React.ReactNode;
@@ -18,7 +18,7 @@ interface ModalProps {
 
 export const Modal: React.FC<ModalProps> = ({
   title,
-  desription,
+  description,
   isOpen,
   onClose,
   children,
@@ -34,7 +34,7 @@ export const Modal: React.FC<ModalProps> = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{desription}</DialogDescription>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div>{children}</div>
       </DialogContent>
