@@ -29,7 +29,6 @@ const formSchema = z.object({
 export const StoreModal = () => {
   const storeModal = useStoreModal();
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -81,7 +80,7 @@ export const StoreModal = () => {
                   )}
                 />
                 <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-                   <Button
+                  <Button
                     disabled={loading}
                     variant="outline"
                     onClick={storeModal.onClose}
