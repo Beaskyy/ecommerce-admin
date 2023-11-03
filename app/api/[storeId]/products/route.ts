@@ -5,14 +5,11 @@ import prismadb from "@/lib/prismadb";
 
 export async function POST(
   req: Request,
-  {
-    params,
-  }: {
-    params: { storeId: string };
-  }
+  { params }: { params: { storeId: string } }
 ) {
   try {
     const { userId } = auth();
+
     const body = await req.json();
 
     const {
@@ -27,7 +24,7 @@ export async function POST(
     } = body;
 
     if (!userId) {
-      return new NextResponse("Unauthenticated", { status: 401 });
+      return new NextResponse("Unauthenticated", { status: 403 });
     }
 
     if (!name) {
@@ -41,18 +38,21 @@ export async function POST(
     if (!price) {
       return new NextResponse("Price is required", { status: 400 });
     }
+
     if (!categoryId) {
       return new NextResponse("Category id is required", { status: 400 });
     }
+
     if (!colorId) {
       return new NextResponse("Color id is required", { status: 400 });
     }
+
     if (!sizeId) {
       return new NextResponse("Size id is required", { status: 400 });
     }
 
     if (!params.storeId) {
-      return new NextResponse("Store ID is required", { status: 400 });
+      return new NextResponse("Store id is required", { status: 400 });
     }
 
     const storeByUserId = await prismadb.store.findFirst({
@@ -63,7 +63,7 @@ export async function POST(
     });
 
     if (!storeByUserId) {
-      return new NextResponse("Unauthorized", { status: 403 });
+      return new NextResponse("Unauthorized", { status: 405 });
     }
 
     const product = await prismadb.product.create({
@@ -73,8 +73,8 @@ export async function POST(
         isFeatured,
         isArchived,
         categoryId,
-        sizeId,
         colorId,
+        sizeId,
         storeId: params.storeId,
         images: {
           createMany: {
@@ -93,11 +93,7 @@ export async function POST(
 
 export async function GET(
   req: Request,
-  {
-    params,
-  }: {
-    params: { storeId: string };
-  }
+  { params }: { params: { storeId: string } }
 ) {
   try {
     const { searchParams } = new URL(req.url);
